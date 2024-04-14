@@ -8,7 +8,7 @@ from gpiozero import LED
 import zmq
 
 context = zmq.Context()
-socket = context.socket(zmq.REP)
+socket = context.socket(zmq.PULL)
 socket.bind("tcp://*:5555")
 
 light = LED(17)
@@ -17,14 +17,14 @@ light.off()
 
 while True:
     #  Wait for next request from client
-    message = socket.recv()
+    message = socket.recv_string()
     print("Received request: %s" % message)
 
-    if message == b"ON":
+    if message == "ON":
         print("Turning lights ON")
         current_state = "ON"
         light.on()
-    elif message == b"OFF":
+    elif message == "OFF":
         print("Turning lights OFF")
         current_state = "OFF"
         light.off()
@@ -32,5 +32,3 @@ while True:
         print("Invalid request: %s" % message)
         continue
 
-    #  Send reply back to client
-    socket.send(current_state.encode())

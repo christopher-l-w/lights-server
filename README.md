@@ -6,3 +6,7 @@ and handle ON/OFF commands
 ## Usage
 
 python3 main.py
+
+## Config
+
+Enable remote connections via the Remote GPIO [settings](https://gpiozero.readthedocs.io/en/v2.0.1/remote_gpio.html)
